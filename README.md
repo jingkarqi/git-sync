@@ -50,7 +50,7 @@ In this journey of knowledge building, I'm honored to have DeepSeek as my though
 
 1. Clone this repo / 克隆本仓库:
    ```bash
-   git clone https://github.com/jingkarqi/obsidian-sync.git
+   git clone https://github.com/jingkarqi/git-sync.git
    ```
 2. Open in Obsidian / 在 Obsidian 中打开: 
     Open the cloned folder as a vault in Obsidian.

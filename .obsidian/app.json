@@ -3,5 +3,6 @@
   "newLinkFormat": "relative",
   "readableLineLength": true,
   "promptDelete": false,
-  "newFileLocation": "root"
+  "newFileLocation": "root",
+  "attachmentFolderPath": "./"
 }

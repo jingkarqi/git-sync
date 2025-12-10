@@ -1,4 +1,6 @@
-# Git-Sync Obsidian 仓库
+<p align="center">
+	<h1>Git-Sync Obsidian 仓库</h1>
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Obsidian-1.5+-7C3AED?logo=obsidian&logoColor=white" alt="Obsidian Version" />

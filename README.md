@@ -7,4 +7,4 @@
   <img src="https://img.shields.io/badge/状态-个人使用-00A86B" alt="Status" />
 </p>
 
-> 一个通过 Git 自动同步的 Obsidian 个人知识库，让你的笔记随时随地保持最新。
+> 一个通过 Git 自动同步的 Obsidian 个人知识库，笔记随时随地保持最新。

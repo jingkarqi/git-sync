@@ -1,6 +1,6 @@
-<p align="center">
-	<h1>Git-Sync Obsidian 仓库</h1>
-</p>
+<h1 align="center">
+Obsidian Git-Sync
+</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Obsidian-1.5+-7C3AED?logo=obsidian&logoColor=white" alt="Obsidian Version" />

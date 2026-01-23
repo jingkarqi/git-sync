@@ -13,7 +13,7 @@
 ### 硬事实
 
 - csrc/params.h:5-8, 63-103：新增 ModelType::MODEL1，并在 SparseAttnDecodeParams 中加入 model_type、extra_kv/extra_indices/extra_topk_length、topk_length。变更内容：解码参数结构支持 MODEL1 与“额外 KV + 动态 topk”。解释变更：代码显式区分模型类型并为双 KV 路径预留参数。**结论：MODEL1 不是简单兼容模式，而是具备额外注意力路径的独立形态。**
-- csrc/api/sparse_decode.h:14-27, 318-345：新增 DecodeFeatures::MODEL1_KVCACHE_FORMAT，并把 d_qk==512 映射到 MODEL1。变更内容：特征枚举与模型选择逻辑支持 MODEL1。解释变更：以 head_dim 作为模型分流依据。**结论：MODEL1 的结构与 V3.2 不同，具备可被调度器识别的独立特征。**
+- csrc/api/sparse_decode.h:14-27, 318-345：新增 DecodeFeatures::MODEL1_KVCACHE_FORMAT，并把 d_qk == 512 映射到 MODEL1。变更内容：特征枚举与模型选择逻辑支持 MODEL1。解释变更：以 head_dim 作为模型分流依据。**结论：MODEL1 的结构与 V3.2 不同，具备可被调度器识别的独立特征。**
 - csrc/api/sparse_decode.h:289-305：新增 MODEL1 的 bytes_per_token 计算公式（448 + 64*2 + (448/64)*1 + 1）。变更内容：KV cache 结构尺寸显式区分 V3.2 与 MODEL1。解释变更：不同模型使用不同 FP8 KV 内存布局。**结论：MODEL1 的 KV cache 布局已定型且与 V3.2 不兼容。**
 - csrc/api/sparse_decode.h:110-180：SM100 上 head128 实现对 MODEL1 有原生路径，V3.2 走 head64×2。变更内容：SM100 kernel dispatch 对 MODEL1 单独优化。解释变更：MODEL1 在新硬件上有专门实现路径。**结论：MODEL1 被视为重点目标平台的原生配置。**
 - csrc/sm90/decode/sparse_fp8/splitkv_mla.cuh:693-701, 531-534：MODEL1 才启用 topk_length/extra_topk_length/extra_kv，V3.2 明确不支持。变更内容：模型分支决定功能开关与越界保护。解释变更：MODEL1 允许动态 topk 与额外 KV；V3.2 关闭。**结论：MODEL1 的推理路径更复杂，支持双 KV/变长 topk。**

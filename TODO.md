@@ -1,7 +1,7 @@
 - [ ] app开发
 - [ ] document-skills
 - [ ] document-agent
-- [ ] exam-agent
+- [x] exam-agent
 - [ ] 3D空间壁纸，Windows/Android
 - [ ] 模型量化，移植
 - [ ] 

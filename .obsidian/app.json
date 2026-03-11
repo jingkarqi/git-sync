@@ -2,5 +2,6 @@
   "newFileLocation": "current",
   "attachmentFolderPath": "智慧林业/assets/未命名",
   "promptDelete": false,
-  "mobilePullAction": ""
+  "mobilePullAction": "",
+  "mobileQuickRibbonItem": "zk-prefixer:创建时间戳笔记"
 }

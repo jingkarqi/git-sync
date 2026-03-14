@@ -326,6 +326,22 @@ The kernel SHOULD preserve atomicity between:
 
 If exact atomicity is not possible in the implementation substrate, the runtime MUST define and document a recovery-safe write order.
 
+## 8.5.1 Recommended durability pattern \(non-normative\)
+For v1 implementations, the recommended default is a transactional or quasi-transactional pattern such as:
+
+- durable state write plus outbox intent in one local transaction where possible
+- asynchronous event publication from the outbox
+- checkpoint creation at explicit post-commit recovery boundaries
+
+If a full transactional outbox is not feasible, the implementation SHOULD still define a single authoritative durability source and a replay procedure that can deterministically reconcile:
+
+- state version
+- pending event publication
+- checkpoint lineage
+
+The goal is not perfect distributed atomicity.
+The goal is bounded inconsistency with deterministic recovery.
+
 ## 8.6 Transcript projection
 A transcript MAY be generated from task state and events.
 A transcript MUST NOT be treated as the sole source of truth for recovery or policy enforcement.
@@ -497,6 +513,16 @@ If branching is supported, the resulting branch MUST have:
 - visible lineage
 - isolated future event sequence
 
+A Kernel Core implementation SHOULD NOT enable checkpoint branching by default in v0.1 unless it also defines, at minimum:
+
+- branch budget inheritance or isolation semantics
+- principal and delegation inheritance semantics
+- policy-context inheritance semantics
+- failure isolation semantics between parent and branch
+- completion and result lineage semantics
+
+If these are not explicitly defined, branching MUST remain disabled or experimental.
+
 ---
 
 # 12. Policy Authority
@@ -575,6 +601,31 @@ A control signal MUST:
 Control signals SHOULD be processed ahead of ordinary non-critical execution steps once the runtime reaches a safe interruption boundary.
 
 If the runtime supports immediate interruption, the implementation MUST define which operations are interruptible and which are only deferrably interruptible.
+
+## 13.5.1 Safe interruption boundary
+A safe interruption boundary is a point at which the task can be paused, redirected, or terminated without:
+
+- corrupting durable state
+- losing event attribution
+- duplicating or ambiguously committing a side effect
+- breaking checkpoint recoverability
+
+At minimum, a conforming implementation MUST document whether the following are safe interruption boundaries:
+
+- before capability dispatch
+- after capability result commit
+- before checkpoint creation
+- after checkpoint creation
+- during model output streaming
+- during policy evaluation
+
+If model output streaming is interruptible, the implementation MUST define whether partially streamed output is:
+
+- discarded
+- preserved as non-authoritative output
+- committed as authoritative task state
+
+Interruptibility during non-idempotent side-effect execution SHOULD be treated as unsafe unless the implementation provides a stronger transactional guarantee.
 
 ## 13.6 Safety
 If applying a control signal would create state corruption, the kernel MAY defer application until a safe boundary, but MUST emit an event recording the deferment.
@@ -749,6 +800,9 @@ Recommended early constraints:
 - synchronous or semi-synchronous policy hook
 - explicit checkpoint store
 - operator-visible task inspector
+- documented recovery-safe write order for state, event publication, and checkpoint creation
+
+For most v1 systems, a transactional outbox or equivalent recovery-safe publication pattern is strongly recommended.
 
 The first implementation SHOULD avoid:
 
@@ -769,11 +823,13 @@ The following topics are intentionally left open for future versions:
 - distributed checkpoint coordination
 - capability sandbox attestation
 - branch merge semantics
+- branch budget and authority inheritance semantics
 - delegation chains and sub-principal structures
 - formal trust-zone model
 - standard budget schema
 - formal evidence schema
 - deterministic replay guarantees
+- safe interruption boundary taxonomy
 
 These are important, but they are not required for Kernel Spec v0.1.
 
@@ -785,3 +841,4 @@ Kernel Spec v0.1 is designed to be small enough to implement, strict enough to g
 
 Its purpose is not to predict every future feature.
 Its purpose is to prevent the future from rotting the core.
+

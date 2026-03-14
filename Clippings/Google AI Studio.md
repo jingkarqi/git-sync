@@ -1,13 +1,12 @@
 ---
-title: "Google AI Studio"
-source: "https://aistudio.google.com/prompts/1ebL1EApFKaiNA77IcaFZUb42A-upvDG2"
+title: Google AI Studio
+source: https://aistudio.google.com/prompts/1ebL1EApFKaiNA77IcaFZUb42A-upvDG2
 author:
-  - "[[AI Studio]]"
-published:
+  - Gemini 3.1 Pro
 created: 2026-03-07
-description: "The fastest path from prompt to production with Gemini"
+description: The fastest path from prompt to production with Gemini
 tags:
-  - "clippings"
+  - clippings
 ---
 这是一个完整的**一键全自动安装与配置脚本**。
 

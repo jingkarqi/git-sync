@@ -1,3 +1,4 @@
 {
-  "format": "YYYY/MM月/DD日-HH：mm"
+  "format": "YYYY/MM月/第/-HH：mm",
+  "template": ""
 }
